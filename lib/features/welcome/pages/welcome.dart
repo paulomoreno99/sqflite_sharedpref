@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_2/core/data/datasources/products_sqlite_datasource.dart';
 import 'package:shared_preferences_2/core/presentation/components/brand/brand.image.dart';
 import 'package:shared_preferences_2/core/presentation/components/brand/brand_title.dart';
 import 'package:shared_preferences_2/core/presentation/components/buttons/default_text_button.dart';
@@ -15,6 +16,8 @@ import '../../../core/presentation/components/chekbox/chekbox.dart';
 
 class WelcomePage extends StatelessWidget {
   final bool checkedBoxValue = false;
+
+  final db = ProductSQLiteDatasource();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +68,19 @@ _buildBottomRow(BuildContext context) {
 
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ProductsListPage()));
+          }),
+      DefaultTextButton(
+          text: 'Avançar2',
+          textFontSize: 24,
+          //textColor: Colors.red,
+          onPressed: () async {
+            var sp = await SharedPreferences.getInstance();
+            var ds = WelcomeDataSource(sharedPreferences: sp);
+
+            await ds.registerDontShowAgain(value: true);
+
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProductCrudPage()));
           }),
     ],
   );

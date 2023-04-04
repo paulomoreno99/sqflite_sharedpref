@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element, prefer_typing_uninitialized_variables, non_constant_identifier_names
+// ignore_for_file: unused_element, prefer_typing_uninitialized_variables, non_constant_identifier_names, avoid_print
 
 import 'package:path/path.dart';
 import 'package:shared_preferences_2/core/data/models/product_model.dart';
@@ -19,13 +19,13 @@ class ProductSQLiteDatasource {
       onCreate: (db, version) async {
         await db.execute(CREATE_PRODUCTS_TABLE_SCRIPT);
 
-        await db.rawInsert('''insert into $PRODUCTS_TABLE_NAME(
-        $PRODUCTS_COLUMN_NAME,
-        $PRODUCTS_COLUMN_DESCRIPTION,
-        $PRODUCTS_COLUMN_VALUE)
-        VALUES('Suco de Tamarindo','500 ml - Natural', 25)
-        
-''');
+//         await db.rawInsert('''insert into $PRODUCTS_TABLE_NAME(
+//         $PRODUCTS_COLUMN_NAME,
+//         $PRODUCTS_COLUMN_DESCRIPTION,
+//         $PRODUCTS_COLUMN_VALUE)
+//         VALUES('Suco de Tamarindo','500 ml - Natural', 25)
+
+// ''');
 
         //await db.rawInsert(INSERT_PRODUCTS_TABLE_SCRIPT);
       },
@@ -55,9 +55,11 @@ class ProductSQLiteDatasource {
       final Database db = await _getDatabase();
 
       final List<Map<String, dynamic>> productsMap = await db
-          .query(PRODUCTS_TABLE_NAME, orderBy: '$PRODUCTS_TABLE_NAME ASC');
+          //.query(PRODUCTS_TABLE_NAME, orderBy: '$PRODUCTS_TABLE_NAME ASC');
+          .query(PRODUCTS_TABLE_NAME);
 
       return List.generate(productsMap.length, (index) {
+        print(productsMap);
         return ProductModel.fromMap(productsMap[index]);
       });
     } catch (ex) {

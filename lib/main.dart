@@ -46,14 +46,14 @@ class MyApp extends StatelessWidget {
     var sp = await SharedPreferences.getInstance();
     var ds = WelcomeDataSource(sharedPreferences: sp);
 
-    if (ds.getDontShowAgain()) {
-      return ProductsListPage();
-    } else
-      return WelcomePage();
-
     // if (ds.getDontShowAgain()) {
-    //   return WelcomePage();
-    // } else
     //   return ProductsListPage();
+    // } else
+    //   return WelcomePage();
+
+    if (ds.getDontShowAgain()) {
+      return WelcomePage();
+    } else
+      return ProductsListPage();
   }
 }
